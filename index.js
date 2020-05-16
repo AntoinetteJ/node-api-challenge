@@ -30,9 +30,9 @@ server.get('/', (req, res) => {
     res.send("Hello Antoinette");
 })
 
-server.get("projects", (req, res) => {
+server.get("actions", (req, res) => {
     // const id = req.params.id
-    Project.get(req.query)
+    Action.get(req.query)
     .then(data => {
         if(data){
             res.status(200).json(data)
@@ -50,8 +50,8 @@ server.get("projects", (req, res) => {
     })
 })
 
-server.get("/projects/name", (req, res) => {
-    Project.get(req.query)
+server.get("/actions/description", (req, res) => {
+    Action.get(req.query)
     .then(data => {
         res.status(200).json(data)
     })
