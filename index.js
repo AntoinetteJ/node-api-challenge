@@ -12,3 +12,53 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Go code!
 */
+const Project = require("../node-api-challenge/data/helpers/projectModel");
+const Action = require ("../node-api-challenge/data/helpers/actionModel");
+const express = require("express");
+
+const server = express();
+
+server.use(express.json());
+
+const PORT = 5000;
+
+server.listen(PORT, () => {
+    console.log(`listening on ${PORT}`);
+})
+
+server.get('/', (req, res) => {
+    res.send("Hello Antoinette");
+})
+
+server.get("projects", (req, res) => {
+    // const id = req.params.id
+    Project.get(req.query)
+    .then(data => {
+        if(data){
+            res.status(200).json(data)
+        } else {
+            res.status(404).json({
+                message: "The post with the specified ID does not exist."
+            })
+        }
+    })
+    .catch(err => {
+        console.log({err})
+        res.status(500).json({
+            error: "The information could not be retrieved."
+        })
+    })
+})
+
+server.get("/projects/name", (req, res) => {
+    Project.get(req.query)
+    .then(data => {
+        res.status(200).json(data)
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({message: "Error"})
+    })
+})
+
+server.post("")
