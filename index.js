@@ -12,13 +12,16 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Go code!
 */
-const Project = require("../data/helpers/projectModel.js");
-const Action = require ("../data/helpers/actionModel.js");
+const Project = require('./data/helpers/projectModel.js');
+const Action = require('./data/helpers/actionModel.js');
 const express = require("express");
 
 const server = express();
 
-server.use(express.json());
+
+server.use('/', (req, res) => {
+res.status(200).send('Hello Antoinette')
+})
 
 const PORT = 5000;
 
@@ -29,26 +32,28 @@ const PORT = 5000;
 // })
 
 server.get("api/projectModel", (req, res) => {
-    Project.res(req.query)
+    Project.find(req.query)
   .then(data => {
-    res.status(200).send('data');
+    res.status(200).send(data)
 })
 .catch(err => {
     console.log(err)
-    res.status(500).json({message: "ERROR"})
+    res.status(500).json({message: "ERROR"});
 })
+});
 
 server.post('/api/projects', (req, res) => {
     res.status(201).json({url: 'api/projects', operation: 'POST'})
-})
+});
 
 server.put('/api/projects', (req, res) => {
     res.status(200).json({url: '/api/projects', operation: 'PUT'})
-})
+});
 
 server.delete('/api/projects', (req, res) => {
     res.status(204);
-})
+});
 server.listen(PORT, () => {
-    console.log(`listening on ${PORT}`);
-})
+    console.log(`listening on ${PORT}`)
+});
+
