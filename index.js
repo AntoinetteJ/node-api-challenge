@@ -12,47 +12,56 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Go code!
 */
-const Project = require('./data/helpers/projectModel.js');
+const Projects = require('./data/helpers/projectModel.js');
 const Action = require('./data/helpers/actionModel.js');
 const express = require("express");
 
 const server = express();
 
 
-server.use('/', (req, res) => {
-res.status(200).send('Hello Antoinette')
-})
+// server.use('/', (req, res) => {
+// res.status(200).send('Hello Antoinette')
+// })
 
 const PORT = 5000;
 
-
-
-// server.get('/', (req, res) => {
-//     res.send("Hello Antoinette");
-// })
-
-server.get("api/projectModel", (req, res) => {
-    Project.find(req.query)
-  .then(data => {
-    res.status(200).send(data)
+server.get("/api/projects", (req, res) => {
+    
+    res.status(200).json({url: "/api/projects", operation: "GET"})
 })
-.catch(err => {
-    console.log(err)
-    res.status(500).json({message: "ERROR"});
-})
-});
+server.get("/api/actions", (req, res) =>{
 
-server.post('/api/projects', (req, res) => {
+    res.status(200).json({url: "/api/actions", opertaion: "GET"})
+})
+
+server.get("/api/projects/:id", (req, res) => {
+    const id = req.params.id;
+    console.log(req.params);
+    res.status(200).json({url: `/projects/${id}`, operation: `Project ID is ${id}`})
+})
+server.post("/api/projects", (req, res) => {
     res.status(201).json({url: 'api/projects', operation: 'POST'})
 });
 
-server.put('/api/projects', (req, res) => {
+server.post("/api/actions", (req, res) => {
+    res.status(200).json({url: "/api/actions", operation: "POST"})
+})
+
+server.put("/api/projects", (req, res) => {
     res.status(200).json({url: '/api/projects', operation: 'PUT'})
 });
 
-server.delete('/api/projects', (req, res) => {
-    res.status(204);
+server.put("api/actions", (req, res) => {
+    res.status(200).json({url: "/api/actions", operation: "PUT"})
+})
+
+server.delete("/api/projects", (req, res) => {
+    res.status(200).json({url: "/api/projects", operation: "DELETE"});
 });
+
+server.delete("/api/actions", (req, res) => {
+    res.status(200).json({url: "/api/actions", operation: "DELETE"})
+})
 server.listen(PORT, () => {
     console.log(`listening on ${PORT}`)
 });
